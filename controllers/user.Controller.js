@@ -59,8 +59,7 @@ const usuarioDelete = async(req, res = response) => {
   //borrado por estado, se pasa valor a false, queda deshabilitado
   const usuario = await Usuario.findByIdAndUpdate(id, { estado: false})
 
-
-  res.json({ usuario });
+  res.json( usuario );
 };
 
 module.exports = {
