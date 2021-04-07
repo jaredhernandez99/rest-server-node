@@ -6,9 +6,14 @@ class Server {
   constructor() {
     this.app    = express();
     this.port   = process.env.PORT
-    this.userRoute = '/api/users'
-    this.authRoute = '/api/auth'
 
+    this.paths = {
+      auth:       '/api/auth',
+      buscar:     '/api/buscar',
+      categorias: '/api/categorias',
+      productos:  '/api/productos',
+      usuarios:   '/api/users',
+    }  
     //CONEXION DB
     this.conectardb()
 
@@ -20,7 +25,6 @@ class Server {
   async conectardb(){
     await dbConnect()
   }
-
   middlewares() {
     //CORS
     this.app.use(cors())
@@ -31,8 +35,11 @@ class Server {
   }
 
   routes() {
-    this.app.use(this.authRoute,require('../routes/auth.Routes'))
-    this.app.use(this.userRoute,require('../routes/user.Routes'))
+    this.app.use(this.paths.auth,       require('../routes/auth.Routes'))
+    this.app.use(this.paths.buscar,     require('../routes/buscar.Routes'))
+    this.app.use(this.paths.categorias, require('../routes/categoria.Routes'))
+    this.app.use(this.paths.productos,  require('../routes/productos.Routes'))
+    this.app.use(this.paths.usuarios,   require('../routes/user.Routes'))
   }
   listen(){
     this.app.listen(this.port,()=>{
@@ -40,5 +47,4 @@ class Server {
     })
   }
 }
-
 module.exports = Server;
